@@ -30,12 +30,14 @@ app.use(Express.json());
 //   storage: "./storage/data.db", // Path to the file that will store the SQLite DB.
 // });
 
-const database = 'node-rest-api';
-const username = 'postgres';
-const password = 'admin';
+const database = process.env.POSTGRES_DB || 'node-rest-api';
+const username = process.env.POSTGRES_USER || 'postgres';
+const password = process.env.POSTGRES_PASSWORD || 'admin';
+const host = process.env.POSTGRES_HOST || '0.0.21.56:5432'; // This should match the service name defined in docker-compose.yml
+
 
 const sequelize = new Sequelize(database, username, password, {
-  host: 'localhost',
+  host: host,
   dialect: 'postgres',
   define: {
     // Other Sequelize configurations go here

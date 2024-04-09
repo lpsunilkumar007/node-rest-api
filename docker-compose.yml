@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: node-rest-api
+    ports:
+      - "5433:5432"  # Map container port 5432 to host port 5433
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "node-rest-api", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  web:
+    image: my-node-app
+    depends_on:
+      db:
+        condition: service_healthy  # Wait for db service to be healthy
+    ports:
+      - "3000:3000"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=node-rest-api
+      - POSTGRES_HOST=db
