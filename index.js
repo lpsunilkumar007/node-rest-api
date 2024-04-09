@@ -8,7 +8,7 @@ const { port } = require("./config");
 const PORT = process.env.PORT || port;
 
 // Express Routes Import
-// const AuthorizationRoutes = require("./authorization/routes");
+ const AuthorizationRoutes = require("./authorization/routes");
  const UserRoutes = require("./users/routes");
  const EmployeeRoutes = require("./employee/routes");
 
@@ -18,8 +18,8 @@ const PORT = process.env.PORT || port;
 
 const EmployeeModel = require("./common/models/Employee");
 
-// app.use(morgan("tiny"));
-// app.use(cors());
+app.use(morgan("tiny"));
+app.use(cors());
 
 // Middleware that parses the body payloads as JSON to be consumed next set
 // of middlewares and controllers.
@@ -43,17 +43,6 @@ const sequelize = new Sequelize(database, username, password, {
     // Other Sequelize configurations go here
   }
 });
-// const sequelize = new Sequelize({
-//   dialect: 'mssql',
-//   host: 'BHARMOURI',
-//   database: 'node-rest-api',
-//   dialectOptions: {
-//     instanceName: 'DESKTOP-0LABFV5',
-//     authentication: {
-//       type: 'ntlm', // Windows authentication
-//     },
-//   },
-// });
 
 // Initialising the Model on sequelize
 UserModel.initialise(sequelize);
